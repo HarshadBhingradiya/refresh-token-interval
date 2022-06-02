@@ -35,39 +35,45 @@ class Login(APIView):
     def post(self, request):
         # try:
             # body_unicode = request.body.decode('utf-8')
-            body_data = request.data
-            user_exist = User.objects.filter(username=body_data["username"]).exists()
-            if user_exist:
-                user_object = User.objects.get(username=body_data["username"])
-                user = authenticate(username=user_object.username, password=body_data["password"])
-                if user is not None:
-                    token = RefreshToken.for_user(user_object)
-                    refresh_token = str(token)
-                    access_token = str(token.access_token)
+            if 'username' in request.data and 'password' in request.data:
+                body_data = request.data
+                user_exist = User.objects.filter(username=body_data["username"]).exists()
+                if user_exist:
+                    user_object = User.objects.get(username=body_data["username"])
+                    user = authenticate(username=user_object.username, password=body_data["password"])
+                    if user is not None:
+                        token = RefreshToken.for_user(user_object)
+                        refresh_token = str(token)
+                        access_token = str(token.access_token)
 
-                    login_response = {
-                        "user_id":str(user_object.id),
-                        "username": user_object.username,
-                        "email": user_object.email,
-                        "country": user_object.country,
-                        "access_token": access_token,
-                        "refresh_token": refresh_token,
-                    }
-                    status = True
-                    data = login_response
-                    status_code = HTTP_200_OK
-                    message = 'User Login Successfully.'
+                        login_response = {
+                            "user_id":str(user_object.id),
+                            "username": user_object.username,
+                            "email": user_object.email,
+                            "country": user_object.country,
+                            "access_token": access_token,
+                            "refresh_token": refresh_token,
+                        }
+                        status = True
+                        data = login_response
+                        status_code = HTTP_200_OK
+                        message = 'User Login Successfully.'
 
+                    else:
+                        data = {}
+                        status = False
+                        status_code = HTTP_401_UNAUTHORIZED
+                        message = 'username or Password Is Required.'
                 else:
                     data = {}
                     status = False
-                    status_code = HTTP_401_UNAUTHORIZED
-                    message = 'Email or Password Is Required.'
+                    status_code = HTTP_400_BAD_REQUEST
+                    message = 'username or Password Is Required.'
             else:
                 data = {}
                 status = False
                 status_code = HTTP_400_BAD_REQUEST
-                message = 'Email or Password Is Required.'
+                message = 'username or Password Is Required.'
 
             return JsonResponse({'status': status, 'data': data, 'message': message, 'status_code': status_code}, status=status_code)
     

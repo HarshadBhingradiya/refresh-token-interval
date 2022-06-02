@@ -130,11 +130,17 @@ DATABASES = {
     # },
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django',
-        'USER': 'django',
-        'PASSWORD': 'django',
+        # 'NAME': 'django',
+        # 'USER': 'django',
+        # 'PASSWORD': 'django',
+        # 'HOST': 'localhost',
+        # 'PORT':'5433',
+
+        'NAME': 'django1',
+        'USER': 'python',
+        'PASSWORD': '0000',
         'HOST': 'localhost',
-        'PORT':'5433',
+        'PORT':'5432',
     }
 }
 
@@ -189,9 +195,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "email"
-EMAIL_HOST_PASSWORD = "password"
-DEFAULT_FROM_EMAIL = 'email'
+EMAIL_HOST_USER = "md.empiric@gmail.com"
+EMAIL_HOST_PASSWORD = "nngsighvveeedpmz"
+DEFAULT_FROM_EMAIL = 'md.empiric@gmail.com'
 
 AUTH_USER_MODEL = 'base.User'
 APPEND_SLASH=False
